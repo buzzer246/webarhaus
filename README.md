@@ -34,6 +34,12 @@ Here is the Code Assesement Links:
 
 Github Link: https://github.com/buzzer246/webarhaus.git
 
+Loom Video Link: 
+
+https://www.loom.com/share/6de05dae5ea24d4bbcc5ec3ebc6889d3?sid=c6caa6ee-a161-4c8c-83e2-eb97a68a3071
+
+https://www.loom.com/share/5bcadc5479a74163a85e5a3852e821c7?sid=3aea0344-8b3b-4125-9f5c-a457b469a832
+
 Figma Design Image: 
 
 https://ibb.co/JW9QXXnF
