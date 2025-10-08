@@ -44,9 +44,9 @@ Figma Design Image:
 
 https://ibb.co/JW9QXXnF
 
-https://ibb.co/MkGkDr0z
+https://ibb.co/9995sWHd
 
-https://ibb.co/KYQGjY3
+https://ibb.co/Rp2dMjmW
 
 **FinalProject Demo Link:**
 
