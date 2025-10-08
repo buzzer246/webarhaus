@@ -32,7 +32,7 @@ For this I have used Reactjs,Bootstrap,Shards-UI and Font-Awesome Icons.
 Here is the Code Assesement Links:
 ===================================
 
-Github Link: 
+Github Link: https://github.com/buzzer246/webarhaus.git
 
 Figma Design Image: 
 
