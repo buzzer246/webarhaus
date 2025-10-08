@@ -1,0 +1,390 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const HomePage = () => {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [activeCategory, setActiveCategory] = useState('dinnerware');
+  const [cartItems, setCartItems] = useState([]);
+
+  // Product Data
+  const productData = {
+    dinnerware: [
+      {
+        id: 1,
+        name: 'Porcelain Dinner Set',
+        description: 'Elegant 16-piece dinner set with delicate patterns.',
+        price: '$249',
+        image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+      },
+      {
+        id: 2,
+        name: 'Stoneware Plates',
+        description: 'Durable and stylish stoneware dinner plates.',
+        price: '$129',
+        image: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTJsHdaRfT6oGHUgr974utmtK4S5YDbXP0XBFPm2mwHXm6hzdbyTrc9B8P20VJaPxgWjy2OsEGFxGCRW5aXn6Sn8WItrH0cCiz4DzkIQkAd'
+      },
+      {
+        id: 3,
+        name: 'Ceramic Bowl Set',
+        description: 'Set of 4 handcrafted ceramic bowls.',
+        price: '$89',
+        image: 'https://www.stylemyway.com/pub/media/catalog/product/cache/69bd72771a71504fbbfd211cda307ed0/k/c/KCP1469_1.jpg'
+      },
+      {
+        id: 4,
+        name: 'Gold Accent Mugs',
+        description: 'Set of 6 mugs with elegant gold accents.',
+        price: '$75',
+        image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+      },
+      {
+        id: 5,
+        name: 'Modern Serving Platter',
+        description: 'Large serving platter for elegant presentations.',
+        price: '$149',
+        image: 'https://nayasa.com/cdn/shop/files/NE02612_1_25638cc8-7148-4e41-9579-885fb41b1c14.jpg?v=1729660418&width=1200'
+      },
+      {
+        id: 6,
+        name: 'Hand-Painted Tea Set',
+        description: 'Beautiful 12-piece tea set with floral patterns.',
+        price: '$199',
+        image: 'https://m.media-amazon.com/images/I/81uhpGQczRL.jpg'
+      }
+    ],
+    'dining-tables': [
+      {
+        id: 7,
+        name: 'Farmhouse Dining Table',
+        description: 'Rustic farmhouse table with reclaimed wood.',
+        price: '$1,899',
+        image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+      },
+      {
+        id: 8,
+        name: 'Modern Glass Table',
+        description: 'Sleek glass table with metal base.',
+        price: '$2,299',
+        image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+      }
+    ],
+    'dining-chairs': [
+      {
+        id: 9,
+        name: 'Upholstered Dining Chair',
+        description: 'Comfortable dining chair with premium fabric.',
+        price: '$349',
+        image: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+      },
+      {
+        id: 10,
+        name: 'Wooden Accent Chair',
+        description: 'Elegant wooden chair with curved back.',
+        price: '$299',
+        image: 'https://images.unsplash.com/photo-1519947486511-46149fa0a254?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+      }
+    ]
+  };
+
+  const featuredProducts = [
+    {
+      id: 11,
+      name: 'Modern Sofa Collection',
+      description: 'Comfort meets style in our premium sofa collection.',
+      price: 'From $1,299',
+      image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+    },
+    {
+      id: 12,
+      name: 'Farmhouse Dining Table',
+      description: 'Rustic charm with modern durability.',
+      price: '$1,899',
+      image: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+    },
+    {
+      id: 13,
+      name: 'Luxury Bed Frame',
+      description: 'Handcrafted from sustainable materials.',
+      price: 'From $2,499',
+      image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+    }
+  ];
+
+  const bannerSlides = [
+    {
+      id: 1,
+      title: 'Timeless Designs for Modern Living',
+      description: 'Discover our curated collection of furniture and decor, crafted with attention to detail and sustainable materials.',
+      buttonText: 'Shop the Collection',
+      backgroundImage: 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+    },
+    {
+      id: 2,
+      title: 'Elevate Your Dining Experience',
+      description: 'From rustic farmhouse to contemporary elegance, find the perfect dining set for your home.',
+      buttonText: 'Explore Dining',
+      backgroundImage: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+    },
+    {
+      id: 3,
+      title: 'Create Your Outdoor Oasis',
+      description: 'Transform your outdoor space with our durable and stylish furniture collections.',
+      buttonText: 'Shop Outdoor',
+      backgroundImage: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+    }
+  ];
+
+  // Loading effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Banner slideshow effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % bannerSlides.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [bannerSlides.length]);
+
+  // Handle category change
+  const handleCategoryChange = (category) => {
+    setActiveCategory(category);
+  };
+
+  // Handle add to cart
+  const handleAddToCart = (product) => {
+    setCartItems(prev => [...prev, product]);
+    // Navigate to cart page after adding item
+    navigate('/cart');
+  };
+
+  // Render loading screen
+  if (isLoading) {
+    return (
+      <div id="loading-screen">
+        <div className="loader"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      {/* Navigation */}
+      <nav className="navbar navbar-expand-lg navbar-light sticky-top">
+        <div className="container">
+          <a className="navbar-brand text-info" href="localhost:3000/">ARHAUS</a>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav me-auto">
+              <li className="nav-item">
+                <a className="nav-link" href="#">Furniture</a>
+              </li>
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#" id="diningDropdown" role="button" data-bs-toggle="dropdown">
+                  Dining
+                </a>
+                <ul className="dropdown-menu">
+                  <li><a className="dropdown-item" href="#" onClick={() => handleCategoryChange('dinnerware')}>Dinnerware</a></li>
+                  <li><a className="dropdown-item" href="#" onClick={() => handleCategoryChange('dining-tables')}>Dining Tables</a></li>
+                  <li><a className="dropdown-item" href="#" onClick={() => handleCategoryChange('dining-chairs')}>Dining Chairs</a></li>
+                </ul>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Outdoor</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Bedroom</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Lighting</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Decor</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Rugs</a>
+              </li>
+            </ul>
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <a className="nav-link" href="#"><i className="fas fa-search"></i></a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#"><i className="fas fa-user"></i></a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/cart">
+                  <i className="fas fa-shopping-bag"></i>
+                  {cartItems.length > 0 && <span className="badge bg-secondary">{cartItems.length}</span>}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      {/* Banner with Animation */}
+      <div className="banner-container">
+  {bannerSlides.map((slide, index) => (
+    <div
+      key={slide.id}
+      className={`banner-slide ${index === currentSlide ? 'active' : ''}`}
+      style={{
+        height: '700px',
+        width: '100%',
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('${slide.backgroundImage}')`
+      }}
+    >
+      <div className="banner-content">
+        <h1>{slide.title}</h1>
+        <p>{slide.description}</p>
+        <button className="btn btn-primary-custom">{slide.buttonText}</button>
+      </div>
+    </div>
+  ))}
+</div>
+
+      {/* Featured Products */}
+      <div className="container">
+        <h2 className="section-title">Featured Collections</h2>
+        <div className="row card-container">
+          {featuredProducts.map(product => (
+            <div key={product.id} className="col-md-4">
+              <div className="card product-card">
+                <div className="card-img-container">
+                  <img src={product.image} className="card-img-top" alt={product.name} />
+                </div>
+                <div className="card-body">
+                  <h5 className="card-title">{product.name}</h5>
+                  <p className="card-text">{product.description}</p>
+                  <div className="price">{product.price}</div>
+                  <button 
+                    className="btn add-to-cart-btn"
+                    onClick={() => handleAddToCart(product)}
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Dining Section */}
+      <div className="dining-section">
+        <div className="container">
+          <h2 className="section-title">Dining Collection</h2>
+          
+          <div className="dining-nav">
+            <div 
+              className={`dining-nav-item ${activeCategory === 'dinnerware' ? 'active' : ''}`}
+              onClick={() => handleCategoryChange('dinnerware')}
+            >
+              Dinnerware
+            </div>
+            <div 
+              className={`dining-nav-item ${activeCategory === 'dining-tables' ? 'active' : ''}`}
+              onClick={() => handleCategoryChange('dining-tables')}
+            >
+              Dining Tables
+            </div>
+            <div 
+              className={`dining-nav-item ${activeCategory === 'dining-chairs' ? 'active' : ''}`}
+              onClick={() => handleCategoryChange('dining-chairs')}
+            >
+              Dining Chairs
+            </div>
+          </div>
+          
+          <div className="row card-container">
+            {productData[activeCategory].map(product => (
+              <div key={product.id} className="col-md-4 col-sm-6">
+                <div className="card product-card">
+                  <div className="card-img-container">
+                    <img src={product.image} className="card-img-top" alt={product.name} />
+                  </div>
+                  <div className="card-body">
+                    <h5 className="card-title">{product.name}</h5>
+                    <p className="card-text">{product.description}</p>
+                    <div className="price">{product.price}</div>
+                    <button 
+                      className="btn add-to-cart-btn"
+                      onClick={() => handleAddToCart(product)}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-3 col-sm-6 mb-4">
+              <h5 className="footer-heading text-info">Customer Service</h5>
+              <ul className="footer-links">
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Shipping & Delivery</a></li>
+                <li><a href="#">Returns & Exchanges</a></li>
+                <li><a href="#">Product Care</a></li>
+                <li><a href="#">FAQ</a></li>
+              </ul>
+            </div>
+            <div className="col-md-3 col-sm-6 mb-4">
+              <h5 className="footer-heading text-info">About Arhaus</h5>
+              <ul className="footer-links">
+                <li><a href="#">Our Story</a></li>
+                <li><a href="#">Sustainability</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Catalog</a></li>
+                <li><a href="#">Gift Cards</a></li>
+              </ul>
+            </div>
+            <div className="col-md-3 col-sm-6 mb-4">
+              <h5 className="footer-heading text-info">Visit Us</h5>
+              <ul className="footer-links">
+                <li><a href="#">Store Locator</a></li>
+                <li><a href="#">Design Services</a></li>
+                <li><a href="#">Trade Program</a></li>
+                <li><a href="#">Events</a></li>
+              </ul>
+            </div>
+            <div className="col-md-3 col-sm-6 mb-4">
+              <h5 className="footer-heading text-info">Connect With Us</h5>
+              <p>Sign up for our newsletter to receive updates on new arrivals, special offers, and design inspiration.</p>
+              <div className="input-group mb-3">
+                <input type="email" className="form-control" placeholder="Your email address" />
+                <button className="btn btn-outline-light" type="button">Subscribe</button>
+              </div>
+              <div className="social-icons text-info">
+                <a href="#"><i className="fab fa-facebook-f"></i></a>
+                <a href="#"><i className="fab fa-instagram"></i></a>
+                <a href="#"><i className="fab fa-pinterest"></i></a>
+                <a href="#"><i className="fab fa-youtube"></i></a>
+              </div>
+            </div>
+          </div>
+          <div className="copyright">
+            <p>&copy; 2023 Arhaus Clone. This is a demonstration website for educational purposes.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default HomePage;
